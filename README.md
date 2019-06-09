@@ -200,8 +200,6 @@ github源码地址：https://github.com/xuyuanhong0902/XYH.Log4Net.Extend.git
   /// <summary>
     /// XYH代理属性[作用于类].
     /// ************************************
-    /// [IankaAop(typeof(IankaInstance)]
-    /// [DecorateSymbol] Class ClassName
     /// ************************************
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
@@ -605,5 +603,9 @@ public int SubNum(int num1, int num2)
 }
 　　
 
-
+  object message = "一个参数日志记录单元测试"; // TODO: 初始化为适当的值
+  XYHLogOperator.WriteLog(message);
+  
+  如有问题，欢迎QQ随时交流
+  QQ：1315597862
 
