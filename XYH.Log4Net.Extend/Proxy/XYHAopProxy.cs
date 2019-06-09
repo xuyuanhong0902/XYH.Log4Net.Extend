@@ -1,8 +1,8 @@
 ﻿/**********************************************************************************
- * 类 名 称： IankaAopProxy
- * 机器名称： IankaAopProxy.cs
+ * 类 名 称： XYHAopProxy
+ * 机器名称： XYHAopProxy.cs
  * 命名空间： XYH.Log4Net.Extend
- * 文 件 名： IankaAopProxy
+ * 文 件 名： XYHAopProxy
  * 创建时间： 2019-06-09 
  * 作    者： 
  * 说    明：

@@ -1,8 +1,8 @@
 ﻿/**********************************************************************************
- * 类 名 称： IankaAopAttribute
- * 机器名称： IankaAopAttribute.cs
+ * 类 名 称： XYHAopAttribute
+ * 机器名称： XYHAopAttribute.cs
  * 命名空间： XYH.Log4Net.Extend
- * 文 件 名： IankaAopAttribute
+ * 文 件 名： XYHAopAttribute
  * 创建时间： 2019-06-09 
  * 作    者： 
  * 说    明：
