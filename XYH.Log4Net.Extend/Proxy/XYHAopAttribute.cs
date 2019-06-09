@@ -1,9 +1,9 @@
 ﻿/**********************************************************************************
  * 类 名 称： IankaAopAttribute
  * 机器名称： IankaAopAttribute.cs
- * 命名空间： LogOperationService
+ * 命名空间： XYH.Log4Net.Extend
  * 文 件 名： IankaAopAttribute
- * 创建时间： 2016-11-15 
+ * 创建时间： 2019-06-09 
  * 作    者： 
  * 说    明：
  * ----------------------------------------------------------------------------------
@@ -21,22 +21,22 @@ using System.Threading.Tasks;
 namespace XYH.Log4Net.Extend
 {
     /// <summary>
-    /// 安卡代理属性[作用于类].
+    /// XYH代理属性[作用于类].
     /// ************************************
     /// [IankaAop(typeof(IankaInstance)]
     /// [DecorateSymbol] Class ClassName
     /// ************************************
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class IankaAopAttribute : ProxyAttribute
+    public class XYHAopAttribute : ProxyAttribute
     {
-        public IankaAopAttribute()
+        public XYHAopAttribute()
         {
         }
 
         public override MarshalByRefObject CreateInstance(Type serverType)
         {
-            IankaAopProxy realProxy = new IankaAopProxy(serverType);
+            XYHAopProxy realProxy = new XYHAopProxy(serverType);
             return realProxy.GetTransparentProxy() as MarshalByRefObject;
         }
     }

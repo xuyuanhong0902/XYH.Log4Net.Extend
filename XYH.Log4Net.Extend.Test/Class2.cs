@@ -7,10 +7,10 @@ using System.Web;
 
 namespace LogOperationTest
 {
-    [IankaAop]
+    [XYHAop]
     public class Class2: calssAdd
     {
-        [IankaMethod(ProcessType.Log)]
+        [XYHMethod(ProcessType.Log)]
         public int AddNum(int num1, int num2)
         {
             ////Thread.Sleep(5000);
@@ -23,7 +23,7 @@ namespace LogOperationTest
 
             return num1 + num2;
         }
-        [IankaMethod(ProcessType.Log)]
+        [XYHMethod(ProcessType.Log)]
         public int SubNum(int num1, int num2)
         {
             ////Thread.Sleep(5000);

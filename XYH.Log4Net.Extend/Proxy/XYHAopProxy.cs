@@ -1,9 +1,9 @@
 ﻿/**********************************************************************************
  * 类 名 称： IankaAopProxy
  * 机器名称： IankaAopProxy.cs
- * 命名空间： LogOperationService
+ * 命名空间： XYH.Log4Net.Extend
  * 文 件 名： IankaAopProxy
- * 创建时间： 2016-11-15 
+ * 创建时间： 2019-06-09 
  * 作    者： 
  * 说    明：
  * ----------------------------------------------------------------------------------
@@ -24,15 +24,15 @@ using System.Threading.Tasks;
 namespace XYH.Log4Net.Extend
 {
     /// <summary>
-    /// 安卡代理实现类.
+    /// XYH代理实现类.
     /// </summary>
-    public class IankaAopProxy : RealProxy
+    public class XYHAopProxy : RealProxy
     {
         /// <summary>
         /// 构造函数.
         /// </summary>
         /// <param name="target">目标类型.</param>
-        public IankaAopProxy(Type target)
+        public XYHAopProxy(Type target)
             : base(target)
         {
         }
@@ -174,7 +174,7 @@ namespace XYH.Log4Net.Extend
             {
                 foreach (Attribute item in customAttributeArray)
                 {
-                    IankaMethodAttribute methodAdviceAttribute = item as IankaMethodAttribute;
+                    XYHMethodAttribute methodAdviceAttribute = item as XYHMethodAttribute;
                     if (methodAdviceAttribute != null && (methodAdviceAttribute.AdviceType == adviceType))
                     {
                         if (methodAdviceAttribute.ProcessType == ProcessType.None)

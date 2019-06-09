@@ -1,9 +1,9 @@
 ﻿/**********************************************************************************
  * 类 名 称： IankaMethodAttribute
  * 机器名称： IankaMethodAttribute.cs
- * 命名空间： LogOperationService
+ * 命名空间： XYH.Log4Net.Extend
  * 文 件 名： IankaMethodAttribute
- * 创建时间： 2016-11-15 
+ * 创建时间： 2019-06-09 
  * 作    者： 
  * 说    明：
  * ----------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ namespace XYH.Log4Net.Extend
     /// ************************************
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class IankaMethodAttribute : Attribute
+    public class XYHMethodAttribute : Attribute
     {
         /// <summary>
         /// 代理处理方式.
@@ -45,7 +45,7 @@ namespace XYH.Log4Net.Extend
         /// 构造函数(需要记录日志，并且是记录入参、出参数日志)
         /// </summary>
         /// <param name="adviceType"></param>
-        public IankaMethodAttribute()
+        public XYHMethodAttribute()
             : this(ProcessType.Log, AdviceType.Around)
         {
         }
@@ -54,7 +54,7 @@ namespace XYH.Log4Net.Extend
         /// 构造函数(自定义设置是否需要记录日志，如果需要记录那么：记录入参、出参数日志)
         /// </summary>
         /// <param name="adviceType"></param>
-        public IankaMethodAttribute(ProcessType processType)
+        public XYHMethodAttribute(ProcessType processType)
             : this(processType, AdviceType.Around)
         {
         }
@@ -63,7 +63,7 @@ namespace XYH.Log4Net.Extend
         /// 构造函数（自定义设置是否需要记录日志，并且记录日志的方式也自定义设置）
         /// </summary>
         /// <param name="adviceType">代理处理类型.</param>
-        public IankaMethodAttribute(ProcessType processType, AdviceType adviceType)
+        public XYHMethodAttribute(ProcessType processType, AdviceType adviceType)
         {
             this.processType = processType;
             this.adviceType = adviceType;

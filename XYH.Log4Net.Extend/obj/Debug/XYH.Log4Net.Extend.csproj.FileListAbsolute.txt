@@ -36,7 +36,6 @@ E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\XYH.Log4Net.Extend.pdb
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\log4net.dll
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\Newtonsoft.Json.dll
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\Newtonsoft.Json.xml
-E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csprojAssemblyReference.cache
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csproj.CoreCompileInputs.cache
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csproj.CopyComplete
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.dll
