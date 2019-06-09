@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\log4net.dll</HintPath>
+      <HintPath>..\BLL\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -79,9 +79,6 @@
     <Compile Include="Proxy\LogAopActionImpl.cs" />
     <Compile Include="Proxy\ProcessType.cs" />
     <Compile Include="Queue\MessageIntoQueue.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="lib\log4net.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="log4net.config">
