@@ -23,7 +23,6 @@ namespace XYH.Log4Net.Extend
     /// <summary>
     /// XYH代理属性[作用于类].
     /// ************************************
-    /// [IankaAop(typeof(IankaInstance)]
     /// [DecorateSymbol] Class ClassName
     /// ************************************
     /// </summary>

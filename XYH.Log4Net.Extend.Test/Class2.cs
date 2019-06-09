@@ -23,7 +23,7 @@ namespace LogOperationTest
 
             return num1 + num2;
         }
-        [XYHMethod(ProcessType.Log)]
+        [XYHMethod(ProcessType.None)]
         public int SubNum(int num1, int num2)
         {
             ////Thread.Sleep(5000);

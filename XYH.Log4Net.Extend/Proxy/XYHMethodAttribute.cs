@@ -1,8 +1,8 @@
 ﻿/**********************************************************************************
- * 类 名 称： IankaMethodAttribute
- * 机器名称： IankaMethodAttribute.cs
+ * 类 名 称： XYHMethodAttribute
+ * 机器名称： XYHMethodAttribute.cs
  * 命名空间： XYH.Log4Net.Extend
- * 文 件 名： IankaMethodAttribute
+ * 文 件 名： XYHMethodAttribute
  * 创建时间： 2019-06-09 
  * 作    者： 
  * 说    明：
@@ -24,7 +24,7 @@ namespace XYH.Log4Net.Extend
     /// 用法[AdviceType取值：None、Before、After、Around]
     ///     [ProcessType取值：None、Log]：
     /// ************************************
-    /// [IankaMethod(ProcessType.None,AdviceType.Before)]
+    /// [XYHMethod(ProcessType.None,AdviceType.Before)]
     /// [DecorateSymbol] ReturnType MethodName([parameter])
     /// ************************************
     /// </summary>
