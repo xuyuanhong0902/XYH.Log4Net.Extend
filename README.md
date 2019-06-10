@@ -628,3 +628,53 @@ IP 地 址：192.168.1.198
 日志级别：ERROR 
 异常堆栈：System.FormatException: 输入字符串的格式不正确。 在 System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal) 在 System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info) 在 System.Convert.ToInt32(String value) 在 LogOperationTest.Class2.AddNum(Int32 num1, Int32 num2) 位置 C:\Users\Administrator\Documents\WeChat Files\xu15908150902\FileStorage\File\2019-05\公共服务\LogOperationService\LogOperationTest\Class2.cs:行号 23 
 
+
+
+今天有一个伙伴在博客上问，用改组件，怎么去捕捉记录全局未处理的异常日志。
+其实方法很简单,实现步骤如下：
+重新Global.asax中的Application_Error方法
+ /// <summary>
+        /// Application_Error
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            try
+            {
+                Exception lastException = Server.GetLastError();
+                if (lastException == null)
+                {
+                    return;
+                }
+
+                Exception baseException = lastException.GetBaseException();
+                if (baseException == null)
+                {
+                    return;
+                }
+
+                //// 记录异常日志
+                XYHLogOperator.WriteLog("全局异常捕获", baseException); 
+
+                if (baseException is HttpRequestValidationException)
+                {
+                    Response.Write("请不要攻击我，我很脆弱的！！！");
+                }
+                else
+                {
+                    //// 跳转至指定的错误页面
+                    //// 此处可根据实际需要进行改造，比如有的是直接提供接口的服务，那么这样重定向到一个统一的错误页面，肯定就不怎么合适
+                    Response.Redirect("/pagError.html");
+                }
+            }
+            finally
+            {
+               //// 同过配置文件，盘端是否需要把未处理的异常呈现到客户端
+                if (System.Configuration.ConfigurationManager.AppSettings["ShowErrorOnPage"] == null)
+                {
+                    Server.ClearError();
+                }
+            }
+        }
+
