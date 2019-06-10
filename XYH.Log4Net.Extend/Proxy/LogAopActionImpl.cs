@@ -58,7 +58,7 @@ namespace XYH.Log4Net.Extend
             {
                 MethodName = call.MethodName,
                 MethodParam = JsonConvert.SerializeObject(call.Args),
-                MethodResult = result.Properties["__Return"].ToString(),
+                MethodResult = JsonConvert.SerializeObject(result.Properties["__Return"]),
                 LogProjectName = call.TypeName,
                 ExecuteEndTime = executeEndTime,
                 ExecuteStartTime = executeStartTime,
