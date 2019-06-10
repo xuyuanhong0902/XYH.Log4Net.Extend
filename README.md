@@ -609,3 +609,22 @@ public int SubNum(int num1, int num2)
   如有问题，欢迎QQ随时交流
   QQ：1315597862
 
+
+
+实际日志效果实例： 
+日志编号：BDCA8E9FFD834C6EA8FE612E4C21F815 
+日志序列：D8EE83631535475DB4E5CD086EAB5238 
+机器名称：BL261P0EJ35SFKG 
+IP 地 址：192.168.1.198 
+开始时间：2019-06-09 16:10:03 4409 
+结束时间：2019-06-09 16:10:54 8546 
+执行时间：51.4136955秒 
+程序名称：LogOperationTest.Class2, LogOperationTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null 
+方法名称：AddNum 
+方法入参：[1,11] 
+方法出参：(null) 
+日志信息： 
+日志时间：2019-06-09 16:10:54,951 
+日志级别：ERROR 
+异常堆栈：System.FormatException: 输入字符串的格式不正确。 在 System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal) 在 System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info) 在 System.Convert.ToInt32(String value) 在 LogOperationTest.Class2.AddNum(Int32 num1, Int32 num2) 位置 C:\Users\Administrator\Documents\WeChat Files\xu15908150902\FileStorage\File\2019-05\公共服务\LogOperationService\LogOperationTest\Class2.cs:行号 23 
+
