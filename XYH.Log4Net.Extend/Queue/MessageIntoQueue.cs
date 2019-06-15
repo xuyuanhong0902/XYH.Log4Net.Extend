@@ -21,9 +21,12 @@ namespace XYH.Log4Net.Extend
         /// </summary>
         public MessageIntoQueue()
         {
-            logSerialNumber = System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString();
-            if (string.IsNullOrEmpty(logSerialNumber))
-            {
+            if (System.Web.HttpContext.Current.Session["LogSerialNumber"] == null
+                || string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString())) {
+                logSerialNumber = System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString();
+            }
+
+            if (string.IsNullOrEmpty(logSerialNumber)) {
                 logSerialNumber = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
             }
         }
