@@ -19,14 +19,19 @@ namespace XYH.Log4Net.Extend
         /// <summary>
         /// 无参数构造函数，序列号好哦默认取session的值，如果没有那么自动生成一个
         /// </summary>
-        public MessageIntoQueue()
-        {
-            if (System.Web.HttpContext.Current.Session["LogSerialNumber"] == null
-                || string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString())) {
-                logSerialNumber = System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString();
-            }
+        public MessageIntoQueue() {
+            //// 做一个异常处理，如果支持session，那么直接重新生成
+            try {
+                if (System.Web.HttpContext.Current.Session["LogSerialNumber"] != null
+               && !string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString())) {
+                    logSerialNumber = System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString();
+                }
 
-            if (string.IsNullOrEmpty(logSerialNumber)) {
+                if (string.IsNullOrEmpty(logSerialNumber)) {
+                    logSerialNumber = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
+                }
+            }
+            catch (Exception) {
                 logSerialNumber = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
             }
         }
