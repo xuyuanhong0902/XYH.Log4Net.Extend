@@ -7,9 +7,12 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace LogOperationTest {
-    public class MvcApplication : System.Web.HttpApplication {
-        protected void Application_Start() {
+namespace LogOperationTest
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -29,10 +32,12 @@ namespace LogOperationTest {
             /// 这样，在一次请求的头部传递一个该请求的唯一序列号，并在以后的每一个请求都一直传递下去
             /// 这样，就能够通过这个序列号把每一次请求之间的服务或者方法调用关系串联起来
             String[] serialNumber = Request.Headers.GetValues("serialNumber");
-            if (serialNumber != null && serialNumber.Length > 0 && !string.IsNullOrEmpty(serialNumber[0])) {
+            if (serialNumber!=null && serialNumber.Length>0 && !string.IsNullOrEmpty(serialNumber[0]))
+            {
                 Session["LogSerialNumber"] = serialNumber[0];
             }
-            else {
+            else
+            {
                 Session["LogSerialNumber"] = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
             }
         }
@@ -54,7 +59,9 @@ namespace LogOperationTest {
                     return;
                 }
 
-                WriteLog(baseException);
+                //// 记录异常日志
+                XYHLogOperator.WriteLog("全局异常捕获", baseException);
+                //// WriteLog(baseException);
 
                 if (baseException is HttpRequestValidationException) {
                     Response.Write("请不要攻击我，我很脆弱的！！！");
