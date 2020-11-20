@@ -40,3 +40,14 @@ E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csproj.Cor
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csproj.CopyComplete
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.dll
 E:\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.pdb
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\log4net.config
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\XYH.Log4Net.Extend.dll
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\XYH.Log4Net.Extend.pdb
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\log4net.dll
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\Newtonsoft.Json.dll
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\bin\Debug\Newtonsoft.Json.xml
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csprojAssemblyReference.cache
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csproj.CoreCompileInputs.cache
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.csproj.CopyComplete
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.dll
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend\obj\Debug\XYH.Log4Net.Extend.pdb

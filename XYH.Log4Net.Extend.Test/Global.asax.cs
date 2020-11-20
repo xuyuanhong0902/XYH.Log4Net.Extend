@@ -19,20 +19,21 @@ namespace LogOperationTest
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ////注册日志队列
-            ExtendLogQueue.Instance().Register();
+            // ExtendLogQueue.Instance().Register();
         }
 
         /// <summary>
         /// 每一个请求执行开始
         /// </summary>
-        protected void Session_Start() {
+        protected void Session_Start()
+        {
             //// 记录获取创建每一个请求的序列号
             /// 如果调用放传递了序列号，那么就直接去调用放传递的序列号
             /// 如果调用放未传递，那么则生成一个序列号
             /// 这样，在一次请求的头部传递一个该请求的唯一序列号，并在以后的每一个请求都一直传递下去
             /// 这样，就能够通过这个序列号把每一次请求之间的服务或者方法调用关系串联起来
             String[] serialNumber = Request.Headers.GetValues("serialNumber");
-            if (serialNumber!=null && serialNumber.Length>0 && !string.IsNullOrEmpty(serialNumber[0]))
+            if (serialNumber != null && serialNumber.Length > 0 && !string.IsNullOrEmpty(serialNumber[0]))
             {
                 Session["LogSerialNumber"] = serialNumber[0];
             }
@@ -47,15 +48,19 @@ namespace LogOperationTest
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void Application_Error(object sender, EventArgs e) {
-            try {
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            try
+            {
                 Exception lastException = Server.GetLastError();
-                if (lastException == null) {
+                if (lastException == null)
+                {
                     return;
                 }
 
                 Exception baseException = lastException.GetBaseException();
-                if (baseException == null) {
+                if (baseException == null)
+                {
                     return;
                 }
 
@@ -63,12 +68,15 @@ namespace LogOperationTest
                 XYHLogOperator.WriteLog("全局异常捕获", baseException);
                 //// WriteLog(baseException);
 
-                if (baseException is HttpRequestValidationException) {
+                if (baseException is HttpRequestValidationException)
+                {
                     Response.Write("请不要攻击我，我很脆弱的！！！");
                 }
             }
-            finally {
-                if (System.Configuration.ConfigurationManager.AppSettings["ShowErrorOnPage"] == null) {
+            finally
+            {
+                if (System.Configuration.ConfigurationManager.AppSettings["ShowErrorOnPage"] == null)
+                {
                     Server.ClearError();
                 }
             }

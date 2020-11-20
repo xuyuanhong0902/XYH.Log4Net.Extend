@@ -19,7 +19,7 @@ namespace LogOperationTest
             num++;
 
             //// 测试异常日志记录
-            Convert.ToInt32("ajk89");
+             Convert.ToInt32("ajk89");
 
             return num1 + num2;
         }
