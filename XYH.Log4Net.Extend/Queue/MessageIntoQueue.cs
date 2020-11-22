@@ -22,8 +22,9 @@ namespace XYH.Log4Net.Extend
         public MessageIntoQueue() {
             //// 做一个异常处理，如果支持session，那么直接重新生成
             try {
-                if (System.Web.HttpContext.Current.Session["LogSerialNumber"] != null
-               && !string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString())) {
+                if (System.Web.HttpContext.Current.Session!=null &&
+                    System.Web.HttpContext.Current.Session["LogSerialNumber"] != null && 
+                    !string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString())) {
                     logSerialNumber = System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString();
                 }
 

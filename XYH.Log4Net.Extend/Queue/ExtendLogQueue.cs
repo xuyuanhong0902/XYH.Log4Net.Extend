@@ -226,7 +226,7 @@ namespace XYH.Log4Net.Extend
             int.TryParse(RecursionGetXmlNodeValue(listNodes, "LogErrorFileAppender", "ExtendMaximumFiles"), out errorInfoMaximumFiles);
 
             logInfoFilePath = RecursionGetXmlNodeValue(listNodes, "LogInfoFileAppender", "File");
-            logErrorFilePath = RecursionGetXmlNodeValue(listNodes, "LogInfoFileAppender", "File");
+            logErrorFilePath = RecursionGetXmlNodeValue(listNodes, "LogErrorFileAppender", "File");
            
             // 如果是相对路径，那么需要跟上绝对路径
             if (!logInfoFilePath.Contains(":"))

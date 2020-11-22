@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-
+using System.Web.Http;
 namespace LogOperationTest
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -14,12 +14,12 @@ namespace LogOperationTest
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            ////注册日志队列
-            // ExtendLogQueue.Instance().Register();
+            //   FilterConfig.RegisterGlobalFilters(XYHAopAttribute);
         }
 
         /// <summary>

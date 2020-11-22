@@ -7,16 +7,18 @@ using System.Web.Mvc;
 
 namespace LogOperationTest.Controllers
 {
+    [XYHAop]
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        [XYHMethod(ProcessType.Log)]
+        public ActionResult Index(int id)
         {
-            object message = "一个参数日志记录单元测试"; // TODO: 初始化为适当的值
-            XYHLogOperator.WriteLog(message);
-            Class2 calssAdd = new Class2();
+          //  object message = "一个参数日志记录单元测试"; // TODO: 初始化为适当的值
+          //  XYHLogOperator.WriteLog(message);
+            //Class2 calssAdd = new Class2();
             //calssAdd calssAdd = new calssAdd();
-            calssAdd.SubNum(1, 22);
-            calssAdd.AddNum(1,11);
+          // calssAdd.SubNum(1, 22);
+          //  calssAdd.AddNum(1,11);
            
             return View();
         }

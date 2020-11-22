@@ -338,3 +338,9 @@ F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\obj\Debug\X
 F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\obj\Debug\XYH.Log4Net.Extend.Test.csproj.CopyComplete
 F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\obj\Debug\XYH.Log4Net.Extend.Test.dll
 F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\obj\Debug\XYH.Log4Net.Extend.Test.pdb
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\bin\System.Net.Http.Formatting.dll
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\bin\XYH.Log4Net.Extend.dll.config
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\bin\System.Net.Http.Formatting.xml
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\bin\System.Web.Http.WebHost.dll
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\bin\System.Web.Http.xml
+F:\学习\个人工具类\XYH.Log4Net.Extend\XYH.Log4Net.Extend.Test\bin\System.Web.Http.WebHost.xml
