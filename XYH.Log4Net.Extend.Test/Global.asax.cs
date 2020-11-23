@@ -32,7 +32,7 @@ namespace LogOperationTest
             /// 如果调用放未传递，那么则生成一个序列号
             /// 这样，在一次请求的头部传递一个该请求的唯一序列号，并在以后的每一个请求都一直传递下去
             /// 这样，就能够通过这个序列号把每一次请求之间的服务或者方法调用关系串联起来
-            String[] serialNumber = Request.Headers.GetValues("serialNumber");
+            String[] serialNumber = Request.Headers.GetValues("LogSerialNumber");
             if (serialNumber != null && serialNumber.Length > 0 && !string.IsNullOrEmpty(serialNumber[0]))
             {
                 Session["LogSerialNumber"] = serialNumber[0];

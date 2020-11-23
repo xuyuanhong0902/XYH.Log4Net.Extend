@@ -34,6 +34,33 @@ namespace XYH.Log4Net.Extend.Proxy
         {
             try
             {
+                // 日志等级 为debug
+                LogLevel thisLogLevel= LogLevel.Debug;
+
+                // 判断是有 debug 日志模板，如果没有，那么直接返回
+                if (ExtendLogQueue.logTemplateSetList == null ||
+                    ExtendLogQueue.logTemplateSetList.Count < 1 ||
+                    !ExtendLogQueue.logTemplateSetList.Exists(x => x.FilterLevelMax >= thisLogLevel && x.FilterLevelMin <= thisLogLevel))
+                {
+                    return;
+                }
+
+                // 如果整个contro都不记录日志，那么直接返回
+                //if (actionContext.ActionContext.ActionDescriptor.GetCustomAttributes<XYHAopAttribute>() != null &&
+                //    actionContext.ActionContext.ActionDescriptor.GetCustomAttributes<XYHAopAttribute>().Count > 0 &&
+                //    actionContext.ActionContext.ActionDescriptor.GetCustomAttributes<XYHAopAttribute>()[0].ProcessType == ProcessType.None)
+                //{
+                //    return;
+                //}
+
+                // 如果接口设置了不记录日志，那么直接跳过
+                if (actionContext.ActionContext.ActionDescriptor.GetCustomAttributes<XYHMethodAttribute>()!=null &&
+                    actionContext.ActionContext.ActionDescriptor.GetCustomAttributes<XYHMethodAttribute>().Count>0&&
+                    actionContext.ActionContext.ActionDescriptor.GetCustomAttributes<XYHMethodAttribute>()[0].ProcessType == ProcessType.None)
+                {
+                    return;
+                }
+
                 // 获取 startTimeStr
                 DateTime startTime = System.DateTime.Now;
                 string startTimeStr = HttpContext.Current.Request.Headers.GetValues("ActionStartTime") == null ? string.Empty :
@@ -55,7 +82,7 @@ namespace XYH.Log4Net.Extend.Proxy
                     LogProjectName = actionContext.Request.RequestUri.AbsoluteUri,
                     ExecuteEndTime = System.DateTime.Now,
                     ExecuteStartTime = startTime,
-                    Level = LogLevel.Info
+                    Level = thisLogLevel
                 });
             }
             catch (Exception ex)

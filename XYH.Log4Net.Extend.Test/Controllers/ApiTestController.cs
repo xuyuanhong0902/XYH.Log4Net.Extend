@@ -14,6 +14,7 @@ namespace XYH.Log4Net.Extend.Test.Controllers
         /// </summary>
         /// <returns>所有资源数据</returns>
         [HttpGet]
+        [XYHMethod(ProcessType.Log)]
         public string GetResource()
         {
             return "333";

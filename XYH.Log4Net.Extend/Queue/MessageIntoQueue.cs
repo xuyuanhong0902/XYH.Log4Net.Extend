@@ -19,21 +19,37 @@ namespace XYH.Log4Net.Extend
         /// <summary>
         /// 无参数构造函数，序列号好哦默认取session的值，如果没有那么自动生成一个
         /// </summary>
-        public MessageIntoQueue() {
-            //// 做一个异常处理，如果支持session，那么直接重新生成
-            try {
-                if (System.Web.HttpContext.Current.Session!=null &&
-                    System.Web.HttpContext.Current.Session["LogSerialNumber"] != null && 
-                    !string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString())) {
+        public MessageIntoQueue()
+        {
+            //// 做一个异常处理，如果支持session和请求头部都没有日志序列号，那么直接重新生成
+            try
+            {
+
+                // 首先取session
+                if (System.Web.HttpContext.Current.Session != null &&
+                    System.Web.HttpContext.Current.Session["LogSerialNumber"] != null &&
+                    !string.IsNullOrEmpty(System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString()))
+                {
                     logSerialNumber = System.Web.HttpContext.Current.Session["LogSerialNumber"].ToString();
                 }
 
-                if (string.IsNullOrEmpty(logSerialNumber)) {
+                // 其次 session未取到，那么就取请求头部
+                if (string.IsNullOrEmpty(logSerialNumber))
+                {
+                    logSerialNumber = System.Web.HttpContext.Current.Request.Headers.GetValues("LogSerialNumber") == null ? string.Empty :
+                             System.Web.HttpContext.Current.Request.Headers.GetValues("LogSerialNumber")[0];
+                   // System.Web.HttpContext.Current.Session["LogSerialNumber"] = logSerialNumber;
+                }
+                if (string.IsNullOrEmpty(logSerialNumber))
+                {
                     logSerialNumber = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
+                    // System.Web.HttpContext.Current.Request.Headers.Set("LogSerialNumber", logSerialNumber);
                 }
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 logSerialNumber = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
+                // System.Web.HttpContext.Current.Request.Headers.Set("LogSerialNumber", logSerialNumber);
             }
         }
 

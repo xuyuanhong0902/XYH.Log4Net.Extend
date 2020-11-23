@@ -81,9 +81,10 @@
     <Compile Include="Core\PatternConvert\ExecuteStartTimePatternConvert.cs" />
     <Compile Include="Core\PatternConvert\LogSerialNumberPatternConvert.cs" />
     <Compile Include="Core\PatternConvert\LogInvokeNamePatternConvert.cs" />
+    <Compile Include="Model\MLogTemplateSet.cs" />
     <Compile Include="Proxy\CustomActionFilterAttribute.cs" />
     <Compile Include="Queue\ExtendLogQueue.cs" />
-    <Compile Include="Core\LogLevel.cs" />
+    <Compile Include="Model\LogLevel.cs" />
     <Compile Include="Core\LogHandlerImpl.cs" />
     <Compile Include="Core\LogHandlerManager.cs" />
     <Compile Include="Core\PatternConvert\LogMachineCodePatternConvert.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Core\PatternConvert\LogMethodResultConvert.cs" />
     <Compile Include="Core\PatternConvert\LogMethodNamePatternConvert.cs" />
     <Compile Include="XYHLogOperator.cs" />
-    <Compile Include="Core\LogMessage.cs" />
+    <Compile Include="Model\LogMessage.cs" />
     <Compile Include="Core\PatternConvert\LogUniquePatternConvert.cs" />
     <Compile Include="Core\PatternConvert\LogProjectNamePatternConvert.cs" />
     <Compile Include="Core\PatternConvert\LogServiceIpPatternConvert.cs" />

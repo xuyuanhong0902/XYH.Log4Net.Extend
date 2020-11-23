@@ -29,8 +29,29 @@ namespace XYH.Log4Net.Extend
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class XYHAopAttribute : ProxyAttribute
     {
+        /// <summary>
+        /// 代理处理类型.
+        /// </summary>
+        private ProcessType processType = ProcessType.None;
+
+        /// <summary>
+        /// 代理处理类型.
+        /// </summary>
+        public ProcessType ProcessType
+        {
+            get { return this.processType; }
+        }
+
         public XYHAopAttribute()
         {
+        }
+
+        /// <summary>
+        /// 构造函数(自定义设置是否需要记录日志，如果需要记录那么：记录入参、出参数日志)
+        /// </summary>
+        public XYHAopAttribute(ProcessType processType)
+        {
+            this.processType = processType;
         }
 
         public override MarshalByRefObject CreateInstance(Type serverType)

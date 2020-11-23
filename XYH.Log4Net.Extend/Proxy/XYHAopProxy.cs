@@ -58,42 +58,53 @@ namespace XYH.Log4Net.Extend
             try
             {
                 // 前处理.
-                List<IAopAction> proActionList = this.InitAopAction(customAttributeArray, AdviceType.Before);
+                List<IAopAction> proActionList = null;
 
-                //// 方法执行开始记录日志
-                if (proActionList != null && proActionList.Count > 0  )
+                // 判断是有 debug 日志模板，如果没有，那么直接不处理返回
+                if (ExtendLogQueue.logTemplateSetList != null &&
+                    ExtendLogQueue.logTemplateSetList.Count > 0 &&
+                    ExtendLogQueue.logTemplateSetList.Exists(x => x.FilterLevelMax >= LogLevel.Debug && x.FilterLevelMin <= LogLevel.Debug))
                 {
-                    foreach (IAopAction item in proActionList)
-                    {
-                        IMessage preMessage = item.PreProcess(methodInvoke, base.GetUnwrappedServer());
-                        if (preMessage != null)
-                        {
-                            message = preMessage;
-                        }
-                    }
+                    // 前处理.
+                    proActionList = this.InitAopAction(customAttributeArray, AdviceType.Before);
 
-                    if (message != null)
+                    //// 方法执行开始记录日志
+                    if (proActionList != null && proActionList.Count > 0)
                     {
-                        return message;
+                        foreach (IAopAction item in proActionList)
+                        {
+                            IMessage preMessage = item.PreProcess(methodInvoke, base.GetUnwrappedServer());
+                            if (preMessage != null)
+                            {
+                                message = preMessage;
+                            }
+                        }
+
+                        if (message != null)
+                        {
+                            return message;
+                        }
+                    };
+
+                    message = Proessed(methodInvoke);
+
+                    // 后处理.
+                    proActionList = this.InitAopAction(customAttributeArray, AdviceType.Around);
+
+                    //// 方法执行结束时间
+                    executeEndTime = System.DateTime.Now;
+
+                    //// 方法执行结束记录日志
+                    if (proActionList != null && proActionList.Count > 0)
+                    {
+                        foreach (IAopAction item in proActionList)
+                        {
+                            item.PostProcess(methodInvoke, message, base.GetUnwrappedServer(), executeStartTime, executeEndTime);
+                        }
                     }
                 }
 
                 message = Proessed(methodInvoke);
-
-                // 后处理.
-                proActionList = this.InitAopAction(customAttributeArray, AdviceType.Around);
-
-                //// 方法执行结束时间
-                executeEndTime = System.DateTime.Now;
-
-                //// 方法执行结束记录日志
-                if (proActionList != null && proActionList.Count > 0)
-                {
-                    foreach (IAopAction item in proActionList)
-                    {
-                        item.PostProcess(methodInvoke, message, base.GetUnwrappedServer(), executeStartTime, executeEndTime);
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -193,5 +204,6 @@ namespace XYH.Log4Net.Extend
 
             return actionList;
         }
+
     }
 }

@@ -43,21 +43,10 @@ namespace XYH.Log4Net.Extend
         // 定义一个标识确保线程同步
         private static readonly object locker = new object();
 
-        // LogInfoFileAppender 日志最大保留个数
-        private static int logInfoMaximumFiles;
-
         /// <summary>
-        /// LogInfoFileAppender 日志路径
+        /// 日志模板设置集合
         /// </summary>
-        private static string logInfoFilePath;
-
-        // LogErrorFileAppender 日志最大保留个数
-        private static int errorInfoMaximumFiles;
-
-        /// <summary>
-        /// LogErrorFileAppender 日志路径
-        /// </summary>
-        private static string logErrorFilePath;
+        public static List<MLogTemplateSet> logTemplateSetList;
 
         /// <summary>
         /// 构造函数
@@ -67,8 +56,15 @@ namespace XYH.Log4Net.Extend
             extendLogQue = new ConcurrentQueue<LogMessage>();
             extendLogMre = new ManualResetEvent(false);
 
-            // 初始化数据
-            InitData();
+            try
+            {
+                // 初始化数据
+                InitData();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         /// <summary>
@@ -158,13 +154,15 @@ namespace XYH.Log4Net.Extend
             Register();
 
             // 尝试删除历史日志
-            if (logMessage.Level==LogLevel.Error)
+            if (logTemplateSetList!=null && logTemplateSetList.Count>0)
             {
-                DeleteHistoryLogs(logErrorFilePath, errorInfoMaximumFiles);
-            }
-            else
-            {
-                DeleteHistoryLogs(logInfoFilePath, logInfoMaximumFiles);
+                foreach (var item in logTemplateSetList)
+                {
+                    if (logMessage.Level<=item.FilterLevelMax && logMessage.Level >= item.FilterLevelMin)
+                    {
+                        DeleteHistoryLogs(item.FilePath, item.ExtendMaximumFiles);
+                    }
+                }
             }
         }
 
@@ -220,23 +218,86 @@ namespace XYH.Log4Net.Extend
 
             XmlNodeList listNodes = null;
             listNodes = root.SelectNodes("/log4net/appender");
-
-            // LogInfoFileAppender 日志最大保留个数
-            int.TryParse(RecursionGetXmlNodeValue(listNodes, "LogInfoFileAppender", "ExtendMaximumFiles"), out logInfoMaximumFiles);
-            int.TryParse(RecursionGetXmlNodeValue(listNodes, "LogErrorFileAppender", "ExtendMaximumFiles"), out errorInfoMaximumFiles);
-
-            logInfoFilePath = RecursionGetXmlNodeValue(listNodes, "LogInfoFileAppender", "File");
-            logErrorFilePath = RecursionGetXmlNodeValue(listNodes, "LogErrorFileAppender", "File");
-           
-            // 如果是相对路径，那么需要跟上绝对路径
-            if (!logInfoFilePath.Contains(":"))
+            logTemplateSetList = new List<MLogTemplateSet>();
+            foreach (XmlNode node in listNodes)
             {
-                logInfoFilePath = HttpRuntime.AppDomainAppPath + "\\"+ logInfoFilePath;
-            }
+                // 日志模板实例
+                MLogTemplateSet mLogTemplate = new MLogTemplateSet();
 
-            if (!logErrorFilePath.Contains(":"))
-            {
-                logErrorFilePath = HttpRuntime.AppDomainAppPath + "\\" + logErrorFilePath;
+                if (node.Attributes != null &&
+                    node.Attributes["name"] != null)
+                {
+                    // 模板名称
+                    mLogTemplate.TemplateName = node.Attributes["name"].Value;
+
+                    // 递归子节点
+                    if (node.NodeType == XmlNodeType.Element)
+                    {
+                        foreach (XmlNode nodeChild in node.ChildNodes)
+                        {
+                            // 处理 param节点
+                            if (nodeChild.Name== "param")
+                            {
+                                if (nodeChild.Attributes != null &&
+                  nodeChild.Attributes["name"] != null)
+                                {
+                                    if (nodeChild.Attributes["name"] == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    switch (nodeChild.Attributes["name"].Value)
+                                    {
+                                        // 日志相对路径
+                                        case "File":
+                                            mLogTemplate.FilePath = nodeChild.Attributes["value"].Value;
+                                            if (!mLogTemplate.FilePath.Contains(":"))
+                                            {
+                                                mLogTemplate.FilePath = HttpRuntime.AppDomainAppPath + "\\" + mLogTemplate.FilePath;
+                                            }
+                                            break;
+
+                                        // 最大日志文件总个数
+                                        case "ExtendMaximumFiles":
+                                            int extendMaximumFiles = 0;
+                                            int.TryParse(nodeChild.Attributes["value"].Value, out extendMaximumFiles);
+                                            mLogTemplate.ExtendMaximumFiles = extendMaximumFiles;
+                                            break;
+                                    }
+                                }
+                            }
+                            else if(nodeChild.Name == "filter")
+                            {
+                                // 处理日志等级，又是一个子节点
+                                if (nodeChild.NodeType == XmlNodeType.Element
+                        && nodeChild.ChildNodes != null &&
+                        nodeChild.ChildNodes.Count > 0)
+                                {
+                                    foreach (XmlNode nodeLevelChild in nodeChild.ChildNodes)
+                                    {
+                                        switch (nodeLevelChild.Name)
+                                        {
+                                            // 最大日志类型
+                                            case "levelMin":
+                                                mLogTemplate.FilterLevelMin = GetLogLevelMapping(nodeLevelChild.Attributes["value"].Value, 2);
+                                                break;
+
+                                            // 最小日志类型
+                                            case "levelMax":
+                                                mLogTemplate.FilterLevelMax = GetLogLevelMapping(nodeLevelChild.Attributes["value"].Value, 1);
+                                                break;
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
+                           
+                        }
+                    }
+
+                    logTemplateSetList.Add(mLogTemplate);
+                }
             }
         }
 
@@ -245,7 +306,7 @@ namespace XYH.Log4Net.Extend
         /// </summary>
         /// <param name="filePath">日志文件路径</param>
         /// <param name="maximumFiles">最多保留日志数</param>
-        private void DeleteHistoryLogs(string filePath,int maximumFiles)
+        private void DeleteHistoryLogs(string filePath, int maximumFiles)
         {
             // 如果文件个数不限制，那么直接返回
             if (maximumFiles < 1)
@@ -264,7 +325,7 @@ namespace XYH.Log4Net.Extend
                 // 获取全部文件
                 FileInfo[] infos = dicInfo.GetFiles();
 
-                if (infos!=null && infos.Length> maximumFiles)
+                if (infos != null && infos.Length > maximumFiles)
                 {
                     List<FileInfo> infosList = infos.ToList();
                     infosList.Sort((a, b) => b.LastWriteTime.CompareTo(a.LastWriteTime));
@@ -273,6 +334,33 @@ namespace XYH.Log4Net.Extend
                         infosList[i].Delete();
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 根据日志模板中的日志类型，得到程序中的日志类型映射对应关系
+        /// </summary>
+        /// <param name="logTemplatSetLogType">据日志模板中的日志类型</param>
+        /// <param name="type">类型 1 ：最大  2：最小</param>
+        /// <returns></returns>
+        private LogLevel GetLogLevelMapping(string logTemplatSetLogType,int type) {
+            switch (logTemplatSetLogType)
+            {
+                case "None":
+                    return LogLevel.None;
+                case "Fatal":
+                    return LogLevel.Fatal;
+                case "ERROR":
+                    return LogLevel.Error;
+                case "WARN":
+                    return LogLevel.Warn;
+                case "DEBUG":
+                    return LogLevel.Debug;
+                case "INFO":
+                case "ALL":
+                    return LogLevel.Info;
+                default:
+                    return type == 1 ? LogLevel.None : LogLevel.Info;
             }
         }
     }

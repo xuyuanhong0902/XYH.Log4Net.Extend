@@ -39,7 +39,7 @@ namespace XYH.Log4Net.Extend
                 MethodName = call.MethodName,
                 MethodParam = JsonConvert.SerializeObject(call.Args),
                 LogProjectName = call.TypeName,
-                Level = LogLevel.Info
+                Level = LogLevel.Debug
             });
             return null;
         }
@@ -62,7 +62,7 @@ namespace XYH.Log4Net.Extend
                 LogProjectName = call.TypeName,
                 ExecuteEndTime = executeEndTime,
                 ExecuteStartTime = executeStartTime,
-                Level = LogLevel.Info
+                Level = LogLevel.Debug
             });
 
             return returnInvoke;
