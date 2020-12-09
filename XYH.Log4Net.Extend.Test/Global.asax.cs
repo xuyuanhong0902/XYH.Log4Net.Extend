@@ -64,9 +64,8 @@ namespace LogOperationTest
                     return;
                 }
 
-                //// 记录异常日志
+                // 记录异常日志
                 XYHLogOperator.WriteLog("全局异常捕获", baseException);
-                //// WriteLog(baseException);
 
                 if (baseException is HttpRequestValidationException)
                 {

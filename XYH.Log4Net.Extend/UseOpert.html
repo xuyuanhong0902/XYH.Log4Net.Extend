@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div style="width:1000px;margin:auto;line-height:30px;">
+        <h1 style="width:1000px;text-align:center;">XYH日志主键使用手册</h1>
+        <div>
+            <h2>简介</h2>
+            <div style="line-height:30px;">XYH日志是在log4的基础上做的二次封装，封装的目的是：支持系统自动记录API的交互日志、类执行间的流转流程过程日志、全局异常日志捕获、支持手动记录日志、日志个数大小限制</div>
+
+            <div>
+                <h4 style="display: inline;line-height:30px;">自动记录API的交互日志：</h4>通重写ActionFilterAttribute来实现对API的ACTION的请求前后监控，实现日志记录
+            </div>
+            <div>
+                <h4 style="display: inline;line-height:30px;">类执行间的流转流程过程日志：</h4>通过静态代理实现对方法调用的前后监控，记录日志
+            </div>
+            <div>
+                <h4 style="display: inline;line-height:30px;">全局异常日志捕获：</h4>通过GLobal全局异常处理，实现异常日志抓取记录
+            </div>
+            <div>
+                <h4 style="display: inline;line-height:30px;">支持手动记录日志：</h4>根据需要在程序代码中手动调用开放的API记录日志
+            </div>
+            <div>
+                <h4 style="display: inline;line-height:30px;">日志个数大小限制：</h4>每一种日志类型都可以通过设置最大保留日志个数，当超出设置的闸值系统自动删除历史数据
+            </div>
+            系统自动记录的日志的等级都是Debug（异常日志是Error）,日志落地的最终文件都是一个html文件，其目的是方便在浏览器上查看
+        </div>
+        <div>
+            <h2>配置文件配置</h2>
+            <div>
+                配置文件其实就是log4的配置文件，具体的节点配置方式和log4保持不变，只是在其基础上做了一些自定义改进，比如：模板完全自定义，包括了开始结束执行时间（便于后续做效率分析），新增了日志编号（一次完整请求对应一个编号，这样可以把整请求操作流程串起来）。
+            </div>
+        </div>
+        <div>
+            <h2>设置每一类日志文件最大个数</h2>
+            <div>
+                说说为什么扩展这一个配置，是因为最近在做特殊行业的项目，用户有一个述求，由于服务器条件限制，日志文件需要定时的清理，所以索性就扩展一个方法，配置一个日志总个数，达到闸值后系统自动删除历史数据</br>
+                值需要在对应的类型的日志参数中配置一个 <label style="font-weight:bolder;">ExtendMaximumFiles</label> 节点即可，该节点的默认值是-1，只有当配置的值大于0才会生效，否则日志不会自动删除   <param name="ExtendMaximumFiles" value="100" />
+            </div>
+        </div>
+        <div>
+            <h2>全局异常日志设置</h2>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
