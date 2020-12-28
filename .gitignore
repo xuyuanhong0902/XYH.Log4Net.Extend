@@ -1,1 +1,7 @@
 /packages
+bin
+obj
+/XYH.Log4Net.Extend/obj
+/XYH.Log4Net.Extend/bin
+/XYH.Log4Net.Extend.Test/obj
+/XYH.Log4Net.Extend.Test/bin

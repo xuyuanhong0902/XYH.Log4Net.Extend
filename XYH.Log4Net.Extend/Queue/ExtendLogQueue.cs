@@ -208,7 +208,7 @@ namespace XYH.Log4Net.Extend
 
             // 获取配置文件对应的每一种日志的最大文件个数
             string path = HttpRuntime.AppDomainAppPath + "\\log4net.config";
-
+            
             XmlDocument doc = new XmlDocument();
 
             doc.Load(path);

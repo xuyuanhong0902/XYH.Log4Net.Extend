@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYH.Log4Net.Extend", "XYH.L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYH.Log4Net.Extend.Test", "XYH.Log4Net.Extend.Test\XYH.Log4Net.Extend.Test.csproj", "{572E5B1B-7F86-4E0F-A28B-8511CCD16BA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYH.Log4Net.Extend.Standard", "XYH.Log4Net.Extend.Standard\XYH.Log4Net.Extend.Standard.csproj", "{56D68293-8DF2-4413-8E28-7D2582E64E32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYH.Log4Net.Extend.Standard.Test", "XYH.Log4Net.Extend.Standard.Test\XYH.Log4Net.Extend.Standard.Test.csproj", "{73739460-9B30-4CF0-980C-687AD9CC960F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{572E5B1B-7F86-4E0F-A28B-8511CCD16BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{572E5B1B-7F86-4E0F-A28B-8511CCD16BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{572E5B1B-7F86-4E0F-A28B-8511CCD16BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56D68293-8DF2-4413-8E28-7D2582E64E32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D68293-8DF2-4413-8E28-7D2582E64E32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D68293-8DF2-4413-8E28-7D2582E64E32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D68293-8DF2-4413-8E28-7D2582E64E32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73739460-9B30-4CF0-980C-687AD9CC960F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73739460-9B30-4CF0-980C-687AD9CC960F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73739460-9B30-4CF0-980C-687AD9CC960F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73739460-9B30-4CF0-980C-687AD9CC960F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
