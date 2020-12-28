@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace  XYH.Log4Net.Extend.Standard
+namespace XYH.Log4Net.Extend.Standard
 {
     /// <summary>
     /// 通过队列的方式实现异步记录日志
@@ -135,7 +135,7 @@ namespace  XYH.Log4Net.Extend.Standard
         /// <param name="message">日志文本</param>
         /// <param name="level">等级</param>
         /// <param name="ex">Exception</param>
-        public  void EnqueueMessage(LogMessage logMessage)
+        public void EnqueueMessage(LogMessage logMessage)
         {
             //// 日志入队列
             extendLogQue.Enqueue(logMessage);
@@ -233,8 +233,7 @@ namespace  XYH.Log4Net.Extend.Standard
                             // 处理 param节点
                             if (nodeChild.Name == "param")
                             {
-                                if (nodeChild.Attributes != null &&
-                  nodeChild.Attributes["name"] != null)
+                                if (nodeChild.Attributes != null && nodeChild.Attributes["name"] != null)
                                 {
                                     if (nodeChild.Attributes["name"] == null)
                                     {

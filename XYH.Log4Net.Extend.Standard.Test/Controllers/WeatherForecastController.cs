@@ -9,6 +9,7 @@ namespace XYH.Log4Net.Extend.Standard.Test.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [XYHLog4Attribute]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -23,8 +24,8 @@ namespace XYH.Log4Net.Extend.Standard.Test.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("Get1")]
+        public IEnumerable<WeatherForecast> Get1()
         {
 
             for (int i = 0; i < 10; i++)
@@ -43,6 +44,40 @@ namespace XYH.Log4Net.Extend.Standard.Test.Controllers
                     ExecuteStartTime = System.DateTime.Now.AddMilliseconds(-1),
                     Level = LogLevel.Info,
                     LogContent="33"
+                });
+            }
+
+            var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+
+        [HttpGet("Get2")]
+        [XYHNoLog4]
+        public IEnumerable<WeatherForecast> Get2()
+        {
+
+            for (int i = 0; i < 10; i++)
+            {
+                XYHLogOperator.WriteLog("新增一条功能模块记录", "ModuleService/AddOneModule", "dsdsdjsdhskh", "ddsds", LogLevel.Info);
+
+                XYHLogOperator.WriteLog("新增一条功能模块记录,系统异常", "ModuleService/AddOneModule", "dsdsdjsdhskh", "ddsds", LogLevel.Error);
+
+                XYHLogOperator.WriteLog(new LogMessage()
+                {
+                    MethodName = "1",
+                    MethodParam = "11",
+                    MethodResult = "111",
+                    LogProjectName = "1111",
+                    ExecuteEndTime = System.DateTime.Now,
+                    ExecuteStartTime = System.DateTime.Now.AddMilliseconds(-1),
+                    Level = LogLevel.Info,
+                    LogContent = "33"
                 });
             }
 

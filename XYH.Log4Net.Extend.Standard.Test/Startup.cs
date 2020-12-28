@@ -29,6 +29,14 @@ namespace XYH.Log4Net.Extend.Standard.Test
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // 注册验证服务
+            services.AddMvc(options =>
+            {
+                // 记录日志
+                options.Filters.Add(typeof(XYHLog4ActionFilter));
+                
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

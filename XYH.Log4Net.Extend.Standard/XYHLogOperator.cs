@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XYH.Log4Net.Extend.Standard.Standard;
+using XYH.Log4Net.Extend.Standard;
 
 namespace  XYH.Log4Net.Extend.Standard
 {

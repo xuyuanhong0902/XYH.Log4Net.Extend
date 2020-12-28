@@ -7,12 +7,18 @@
     <PackageId>XYH.Log4Net.Extend</PackageId>
     <Product>XYH.Log4Net.Extend</Product>
     <Description>.netcore+log4实现自动记录交付日志封装，值需要通过简单的配置，即可自动记录服务间的调用关系交互日志</Description>
+    <UserSecretsId>6c9b14e3-5d2f-40c1-8030-3070cd1b56d9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HS.Public.Tools.Model" Version="1.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NodaTime" Version="3.0.3" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
