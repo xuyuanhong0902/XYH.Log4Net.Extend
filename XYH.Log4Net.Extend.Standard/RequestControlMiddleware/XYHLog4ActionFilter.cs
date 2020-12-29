@@ -47,7 +47,7 @@ namespace XYH.Log4Net.Extend.Standard
 
             HttpContext httpContext = context.HttpContext;
 
-            // 构建一个日志数据模型
+            // 构建一个日志数据模型 
             DateTime startTime = Tools.GetSysDateTimeNow();
             DateTime.TryParse(httpContext.Request.Headers["startTime"], out startTime);
             MApiRequestLogs apiRequestLogsM = new MApiRequestLogs()
@@ -73,7 +73,7 @@ namespace XYH.Log4Net.Extend.Standard
                 }
 
                 // 1、统计总共执行时间
-                apiRequestLogsM.TOTALMILLISECONDS = apiRequestLogsM.RESPONSE_TIME.Subtract(apiRequestLogsM.REQUEST_TIME).Milliseconds;
+                apiRequestLogsM.TOTALMILLISECONDS = apiRequestLogsM.REQUEST_TIME.Subtract(apiRequestLogsM.RESPONSE_TIME).Milliseconds;
 
                 // 2、根据请求报文，获取对于的请求相关信息：入参、api、日志序列号等系信息
 
@@ -89,8 +89,27 @@ namespace XYH.Log4Net.Extend.Standard
 
                 // 请求入参
                 // 获取所有请求参数
-                List<MRequestParameter> allQueryParameters = httpContext.Request.GetAllQueryParameters();
-                apiRequestLogsM.REQUEST_INFOR = allQueryParameters == null ? string.Empty : JsonConvert.SerializeObject(allQueryParameters);
+                apiRequestLogsM.REQUEST_INFOR = $"{GetAllQueryParameters(httpContext.Request)}{httpContext.Request.Headers["requestParameters"]}";
+
+                //List<MRequestParameter> allQueryParameters = httpContext.Request.GetAllQueryParameters();
+                //apiRequestLogsM.REQUEST_INFOR = allQueryParameters == null ? string.Empty : JsonConvert.SerializeObject(allQueryParameters);
+                //从文件流中读取传递测参数
+                //using (var ms = new MemoryStream())
+                //{
+                //    context.HttpContext.Request.Body.Seek(0, 0);//将读取指针迻到开始位置
+                //    context.HttpContext.Request.Body.CopyTo(ms);
+                //    var b = ms.ToArray();
+                //    apiRequestLogsM.REQUEST_INFOR = Encoding.UTF8.GetString(b);
+                //}
+
+                //// 接收
+                //Stream inputstream = HttpContext.Current.Request.InputStream;
+
+                //Stream inputstream = context.HttpContext.Request.InputStream;
+                //byte[] b = new byte[inputstream.Length];
+                //inputstream.Read(b, 0, (int)inputstream.Length);
+                //string inputstr = UTF8Encoding.UTF8.GetString(b);
+
 
                 // 请求大小
                 apiRequestLogsM.CENTENTLENGTH = httpContext.Request.ContentLength;
@@ -105,8 +124,14 @@ namespace XYH.Log4Net.Extend.Standard
                 apiRequestLogsM.METHOD = httpContext.Request.Method;
 
                 // 返回信息
-                var objectContent = context.Result;
-                apiRequestLogsM.RESPONSE_INFOR = objectContent.ToString();
+                if (context.Result is ObjectResult)
+                {
+                    var objectResult = context.Result as ObjectResult;
+                    if (objectResult.Value != null)
+                    {
+                        apiRequestLogsM.RESPONSE_INFOR = JsonConvert.SerializeObject(objectResult.Value);
+                    }
+                }
 
                 // 4、落地一条日志信息
                 LogMessage extendLogInfor = new LogMessage()
@@ -118,13 +143,13 @@ namespace XYH.Log4Net.Extend.Standard
 
                     Level = LogLevel.Debug,
                     LogMachineCode = Dns.GetHostName(),
-                    LogProjectName = apiRequestLogsM.API,
-                    LogRecordTime = System.DateTime.Now,
+                    LogProjectName = apiRequestLogsM.URL,
+                    LogRecordTime = Tools.GetSysDateTimeNow(),
 
                     LogSerialNumber = serialNumber,
                     LogUniqueCode = Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
-                    MethodName = apiRequestLogsM.METHOD,
-                    Message = JsonConvert.SerializeObject(apiRequestLogsM),
+                    MethodName = apiRequestLogsM.API,
+                    //  Message = JsonConvert.SerializeObject(apiRequestLogsM),
 
                     MethodParam = apiRequestLogsM.REQUEST_INFOR,
                     MethodResult = apiRequestLogsM.RESPONSE_INFOR
@@ -135,6 +160,7 @@ namespace XYH.Log4Net.Extend.Standard
             }
             catch (Exception ex)
             {
+                throw ex;
             }
         }
 
@@ -144,8 +170,18 @@ namespace XYH.Log4Net.Extend.Standard
         /// <param name="context">请求上下文</param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            var isDefined = false;
+            var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            if (controllerActionDescriptor != null)
+            {
+                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
+                  .Any(a => a.GetType().Equals(typeof(XYHLog4Attribute)));
+            }
+            if (!isDefined) return;
+
+
             // 为了便于记录交互日志，在每一个Action执行开始时，在请求的头部追加一个执行请求时间
-            context.HttpContext.Request.Headers.Add("startTime", Tools.GetSysDateTimeNow().ToString("yyyy-MM-dd HH:mm:ss ffffff"));
+            context.HttpContext.Request.Headers.Add("startTime", Tools.GetSysDateTimeNow().ToString("yyyy-MM-dd HH:mm:ss"));
 
             // 由于.net core大部分项目都是用作分布式微服务架构，为了讲每一次请求的所有日志都有序的串联起来，那么在请求开始的同步都传递一个随机的日志序列号，并一直传递下去，如果没有检查到日志序列号，那么就在请求头部初始化一个日志序列号
             if (context.HttpContext.Request.Headers == null
@@ -154,6 +190,63 @@ namespace XYH.Log4Net.Extend.Standard
                   || string.IsNullOrEmpty(context.HttpContext.Request.Headers["serialNumber"]))
             {
                 context.HttpContext.Request.Headers.Add("serialNumber", Tools.GetDateRandomString());
+            }
+
+            // 把方法入参保存起来，在action结束时，记日志使用 requestParameters
+            if (context.ActionArguments != null)
+            {
+                context.HttpContext.Request.Headers.Add("requestParameters", JsonConvert.SerializeObject(context.ActionArguments));
+            }
+        }
+
+        /// <summary>
+        /// 获取请求的所有参数键值对集合
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>所有参数键值对字典集合</returns>
+        public string GetAllQueryParameters(HttpRequest request)
+        {
+            // 请求参数字典集合
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>();
+
+            try
+            {
+                if (request.Query.Keys != null)
+                {
+                    // 获取url请求参数
+                    foreach (string key in request.Query.Keys)
+                    {
+                        if (!queryParameters.ContainsKey(key))
+                        {
+                            queryParameters.Add(key, request.Query[key]);
+                        }
+                    }
+                }
+
+                if (request.Form.Keys != null)
+                {
+                    // 获取表单参数
+                    foreach (string key in request.Form.Keys)
+                    {
+                        if (!queryParameters.ContainsKey(key))
+                        {
+                            queryParameters.Add(key, request.Form[key]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            if (queryParameters.Count>0)
+            {
+                return JsonConvert.SerializeObject(queryParameters);
+            }
+            else
+            {
+                return string.Empty;
             }
         }
     }
